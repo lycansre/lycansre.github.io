@@ -1,63 +1,137 @@
+// index.html
 <!DOCTYPE html>
-<html lang="en">
+<html lang="ar" dir="rtl">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1">
-    <title>Subscription Store</title>
-    <link rel="stylesheet" href="styles.css">
-    <script src="script.js" defer></script>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>لاڤندا</title>
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css" />
+  <link href="https://fonts.googleapis.com/css2?family=Cairo:wght@400;700&family=Poppins:wght@400;600;700&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="style.css">
+  <style>
+    .socials {
+      text-align: left;
+      direction: ltr;
+    }
+    html[dir="rtl"] .socials {
+      text-align: left;
+    }
+  </style>
 </head>
 <body>
-    <!-- this is the beginning -->
-    <nav>
-        <h1 class="logo">📢 Subscription Store</h1>
-        <button id="language-toggle">🌍 عربي</button>
-        <button id="theme-toggle">🌙 Dark Mode</button>
+  <header>
+    <nav class="navbar">
+      <div class="logo">لاڤندا</div>
+      <ul class="nav-links">
+        <li><a href="#home">الرئيسية</a></li>
+        <li><a href="#about">من نحن</a></li>
+        <li><a href="#services">خدماتنا</a></li>
+        <li><a href="#contact">اتصل بنا</a></li>
+        <li><button id="toggleLang">EN</button></li>
+      </ul>
     </nav>
+  </header>
 
-    <!-- Hero Section -->
-    <header>
-        <h2 data-en="Get Your Favorite Subscriptions" data-ar="احصل على اشتراكاتك المفضلة"></h2>
-        <p data-en="Best prices on YouTube, Netflix, Spotify & more!" data-ar="أفضل الأسعار على يوتيوب، نتفلكس، سبوتيفاي والمزيد!"></p>
-    </header>
-
-    <!-- Subscription Section -->
-    <main>
-        <div class="product-grid">
-            <div class="product">
-                <img src="youtubepremium.png" alt="YouTube Premium">
-                <h3 data-en="YouTube Premium" data-ar="يوتيوب بريميوم"></h3>
-                <p data-en="Ad-free YouTube & background play." data-ar="يوتيوب بدون إعلانات وتشغيل في الخلفية."></p>
-                <span>$11.99 / Month</span>
-                <button data-en="Subscribe Now" data-ar="اشترك الآن"></button>
-            </div>
-            <div class="product">
-                <img src="netflix.png" alt="Netflix Premium">
-                <h3 data-en="Netflix Premium" data-ar="نتفلكس بريميوم"></h3>
-                <p data-en="Stream your favorite shows & movies." data-ar="شاهد مسلسلاتك وأفلامك المفضلة."></p>
-                <span>$15.99 / Month</span>
-                <button data-en="Subscribe Now" data-ar="اشترك الآن"></button>
-            </div>
-            <div class="product">
-                <img src="spotify.png" alt="Spotify Premium">
-                <h3 data-en="Spotify Premium" data-ar="سبوتيفاي بريميوم"></h3>
-                <p data-en="Unlimited music with no ads." data-ar="موسيقى غير محدودة بدون إعلانات."></p>
-                <span>$9.99 / Month</span>
-                <button data-en="Subscribe Now" data-ar="اشترك الآن"></button>
-            </div>
-            <div class="product">
-                <img src="xbox.png" alt="Xbox Game Pass">
-                <h3 data-en="Xbox Game Pass Ultimate" data-ar="اكس بوكس جيم باس"></h3>
-                <p data-en="Unlimited access to 100+ games." data-ar="وصول غير محدود لأكثر من 100 لعبة."></p>
-                <span>$14.99 / Month</span>
-                <button data-en="Subscribe Now" data-ar="اشترك الآن"></button>
-            </div>
+  <main>
+    <section class="hero" id="home">
+      <div class="leaf-background">
+        <div class="card" id="mainCard">
+          <h1 id="lavendaTitle">مرحبا بكم في لاڤــندا</h1>
+          <p class="subtitle">نمزج بين الطبيعة والأناقة في المساحات الرقمية.</p>
+          <div class="socials">
+            <div><i class="fab fa-tiktok"></i> lavanda.plant</div>
+            <div><i class="fab fa-instagram"></i> @lavanda.plant</div>
+            <div><i class="fab fa-snapchat-ghost"></i> lavanda.plant</div>
+            <div><i class="fab fa-whatsapp"></i> +966 55 775 6593</div>
+          </div>
         </div>
-    </main>
+        <img src="https://i.ibb.co/4W8DXZP/leaf1.png" class="leaf leaf1" alt="leaf">
+        <img src="https://i.ibb.co/mNqM7Jj/leaf2.png" class="leaf leaf2" alt="leaf">
+        <img src="https://i.ibb.co/D5tzcLd/plant.png" class="plant" alt="plant">
+      </div>
+    </section>
 
-    <!-- Footer -->
-    <footer>
-        <p data-en="All Rights Reserved © 2025" data-ar="جميع الحقوق محفوظة © 2025"></p>
-    </footer>
+    <section class="about" id="about">
+      <h2>من نحن</h2>
+      <p>
+        لافندا هي مساحة رقمية مستوحاة من الطبيعة، مكرسة لإنشاء تجارب رقمية خضراء التصميم بأناقة. نؤمن بمزج البساطة والأناقة وسهولة الوصول للجميع، باللغتين العربية والإنجليزية.
+      </p>
+      <div class="about-gallery">
+        <img src="https://i.ibb.co/kMQZ1K3/green1.jpg" alt="طبيعة 1" />
+        <img src="https://i.ibb.co/pwjNYVR/green2.jpg" alt="طبيعة 2" />
+        <img src="https://i.ibb.co/WBcRmbs/green3.jpg" alt="طبيعة 3" />
+      </div>
+    </section>
+
+    <section class="services" id="services">
+      <h2>خدماتنا</h2>
+      <div class="service-cards">
+        <div class="service-card">
+          <i class="fas fa-leaf"></i>
+          <h3>تصميم أخضر</h3>
+          <p>تصميم صديق للبيئة وأنيق مستوحى من الطبيعة، مصمم للأداء والبساطة.</p>
+        </div>
+        <div class="service-card">
+          <i class="fas fa-globe"></i>
+          <h3>دعم متعدد اللغات</h3>
+          <p>تصاميم قابلة للوصول تدعم العربية، الإنجليزية، وأكثر.</p>
+        </div>
+        <div class="service-card">
+          <i class="fas fa-mobile-alt"></i>
+          <h3>تصاميم متجاوبة</h3>
+          <p>تصاميم تبدأ بالجوال وتتأقلم بشكل جميل مع كل الأجهزة.</p>
+        </div>
+        <div class="service-card">
+          <i class="fas fa-solar-panel"></i>
+          <h3>استضافة مستدامة</h3>
+          <p>نتعاون مع مزودي استضافة صديقة للبيئة لتقليل الأثر الكربوني.</p>
+        </div>
+      </div>
+    </section>
+
+    <section class="testimonials" id="testimonials">
+      <h2>آراء عملائنا</h2>
+      <div class="testimonial-slider">
+        <blockquote>"جمالية لافندا لا مثيل لها. عملاؤنا يعشقونها!" – نور م.</blockquote>
+        <blockquote>"حولوا رؤيتنا إلى حديقة رقمية. أوصي بهم بشدة." – فراس ك.</blockquote>
+        <blockquote>"محترفون، سريعين، والتنفيذ رائع." – ليث أ.</blockquote>
+      </div>
+    </section>
+
+    <section class="contact" id="contact">
+      <h2>اتصل بنا</h2>
+      <form class="contact-form" action="https://formsubmit.co/youremail@example.com" method="POST">
+        <input type="text" name="name" placeholder="اسمك" required />
+        <input type="email" name="email" placeholder="بريدك الإلكتروني" required />
+        <textarea name="message" rows="5" placeholder="رسالتك" required></textarea>
+        <button type="submit">إرسال</button>
+      </form>
+    </section>
+  </main>
+
+  <footer>
+    <div class="footer-grid">
+      <div>
+        <h4>لافندا</h4>
+        <p>الجمال الطبيعي يلتقي بالتكنولوجيا الأنيقة.</p>
+      </div>
+      <div>
+        <h4>روابط سريعة</h4>
+        <ul>
+          <li><a href="#home">الرئيسية</a></li>
+          <li><a href="#about">من نحن</a></li>
+          <li><a href="#services">خدماتنا</a></li>
+          <li><a href="#contact">اتصل بنا</a></li>
+        </ul>
+      </div>
+      <div>
+        <h4>تابعنا</h4>
+        <p>@lavenda.sa</p>
+      </div>
+    </div>
+  </footer>
+
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/animejs/3.2.1/anime.min.js"></script>
+  <script src="script.js"></script>
 </body>
 </html>
