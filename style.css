@@ -1,120 +1,50 @@
-:root {
-  --primary-green: #27ae60;
-  --light-green: #a9dfbf;
-  --dark-green: #145a32;
-  --background: #f0fdf4;
-  --text-color: #222;
-}
-
-* {
+body {
+  font-family: "Tahoma", sans-serif;
+  background: #f2f2f2;
   margin: 0;
   padding: 0;
-  box-sizing: border-box;
+  direction: rtl;
 }
 
-body {
-  font-family: 'Poppins', 'Cairo', sans-serif;
-  background: var(--background);
-  color: var(--text-color);
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  height: 100vh;
-  flex-direction: column;
-  padding: 20px;
-  position: relative;
-  overflow: hidden;
-}
-
-.card {
+.container {
+  max-width: 600px;
+  margin: 60px auto;
   background: white;
-  border-radius: 20px;
-  box-shadow: 0 20px 50px rgba(0, 0, 0, 0.1);
-  padding: 40px;
-  max-width: 500px;
-  width: 100%;
+  padding: 20px;
+  border-radius: 12px;
+  box-shadow: 0 0 12px rgba(0,0,0,0.1);
   text-align: center;
-  z-index: 2;
-  position: relative;
 }
 
-h1 {
-  font-size: 3rem;
-  color: var(--primary-green);
-  margin-bottom: 20px;
+#langToggle {
+  margin: 10px 0;
+  padding: 8px 16px;
+  border: none;
+  background: #3498db;
+  color: white;
+  border-radius: 6px;
+  cursor: pointer;
 }
 
-.socials {
-  display: flex;
-  flex-direction: column;
-  gap: 15px;
-  font-size: 1.2rem;
-}
-
-.socials div {
-  display: flex;
-  align-items: center;
-  justify-content: flex-start;
-  gap: 10px;
-  background: var(--light-green);
-  padding: 10px 15px;
+#drop-area {
+  border: 2px dashed #bbb;
+  padding: 30px;
   border-radius: 10px;
-  transition: transform 0.3s ease;
+  margin-top: 15px;
+  background: #fafafa;
+  cursor: pointer;
 }
 
-.socials div:hover {
-  transform: scale(1.05);
+#drop-area.highlight {
+  border-color: #3498db;
 }
 
-.socials i {
-  color: var(--dark-green);
-  font-size: 1.5rem;
+#fileElem {
+  display: none;
 }
 
-.credit {
-  font-size: 12px;
-  color: #555;
-  position: fixed;
-  bottom: 10px;
-  left: 15px;
-  font-family: 'Cairo', sans-serif;
-  z-index: 3;
-}
-
-.leaf-background {
-  position: relative;
-  width: 100%;
-  height: 100%;
-  display: flex;
-  justify-content: center;
-  align-items: center;
-}
-
-.leaf {
-  position: absolute;
-  width: 120px;
-  opacity: 0.4;
-  z-index: 1;
-}
-
-.leaf1 {
-  top: -30px;
-  left: -40px;
-  transform: rotate(45deg);
-}
-
-.leaf2 {
-  bottom: -40px;
-  right: -50px;
-  transform: rotate(-30deg);
-}
-
-.plant {
-  position: absolute;
-  bottom: -10px;
-  left: 50%;
-  transform: translateX(-50%);
-  width: 160px;
-  opacity: 0.6;
-  z-index: 1;
+#progress {
+  margin-top: 20px;
+  font-size: 14px;
+  color: #444;
 }
