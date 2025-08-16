@@ -1,137 +1,33 @@
-// index.html
 <!DOCTYPE html>
 <html lang="ar" dir="rtl">
 <head>
-  <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>لاڤندا</title>
-  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css" />
-  <link href="https://fonts.googleapis.com/css2?family=Cairo:wght@400;700&family=Poppins:wght@400;600;700&display=swap" rel="stylesheet">
+  <meta charset="UTF-8">
+  <title>محول الملفات إلى PDF | File to PDF Converter</title>
   <link rel="stylesheet" href="style.css">
-  <style>
-    .socials {
-      text-align: left;
-      direction: ltr;
-    }
-    html[dir="rtl"] .socials {
-      text-align: left;
-    }
-  </style>
+  
+  <!-- Libraries from CDN -->
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/html2pdf.js/0.10.1/html2pdf.bundle.min.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/showdown/2.1.0/showdown.min.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/mammoth/1.6.0/mammoth.browser.min.js"></script>
 </head>
 <body>
-  <header>
-    <nav class="navbar">
-      <div class="logo">لاڤندا</div>
-      <ul class="nav-links">
-        <li><a href="#home">الرئيسية</a></li>
-        <li><a href="#about">من نحن</a></li>
-        <li><a href="#services">خدماتنا</a></li>
-        <li><a href="#contact">اتصل بنا</a></li>
-        <li><button id="toggleLang">EN</button></li>
-      </ul>
-    </nav>
-  </header>
+  <div class="container">
+    <h1 id="title">محول الملفات إلى PDF</h1>
 
-  <main>
-    <section class="hero" id="home">
-      <div class="leaf-background">
-        <div class="card" id="mainCard">
-          <h1 id="lavendaTitle">مرحبا بكم في لاڤــندا</h1>
-          <p class="subtitle">نمزج بين الطبيعة والأناقة في المساحات الرقمية.</p>
-          <div class="socials">
-            <div><i class="fab fa-tiktok"></i> lavanda.plant</div>
-            <div><i class="fab fa-instagram"></i> @lavanda.plant</div>
-            <div><i class="fab fa-snapchat-ghost"></i> lavanda.plant</div>
-            <div><i class="fab fa-whatsapp"></i> +966 55 775 6593</div>
-          </div>
-        </div>
-        <img src="https://i.ibb.co/4W8DXZP/leaf1.png" class="leaf leaf1" alt="leaf">
-        <img src="https://i.ibb.co/mNqM7Jj/leaf2.png" class="leaf leaf2" alt="leaf">
-        <img src="https://i.ibb.co/D5tzcLd/plant.png" class="plant" alt="plant">
-      </div>
-    </section>
+    <!-- Language toggle -->
+    <button id="langToggle">English</button>
 
-    <section class="about" id="about">
-      <h2>من نحن</h2>
-      <p>
-        لافندا هي مساحة رقمية مستوحاة من الطبيعة، مكرسة لإنشاء تجارب رقمية خضراء التصميم بأناقة. نؤمن بمزج البساطة والأناقة وسهولة الوصول للجميع، باللغتين العربية والإنجليزية.
-      </p>
-      <div class="about-gallery">
-        <img src="https://i.ibb.co/kMQZ1K3/green1.jpg" alt="طبيعة 1" />
-        <img src="https://i.ibb.co/pwjNYVR/green2.jpg" alt="طبيعة 2" />
-        <img src="https://i.ibb.co/WBcRmbs/green3.jpg" alt="طبيعة 3" />
-      </div>
-    </section>
-
-    <section class="services" id="services">
-      <h2>خدماتنا</h2>
-      <div class="service-cards">
-        <div class="service-card">
-          <i class="fas fa-leaf"></i>
-          <h3>تصميم أخضر</h3>
-          <p>تصميم صديق للبيئة وأنيق مستوحى من الطبيعة، مصمم للأداء والبساطة.</p>
-        </div>
-        <div class="service-card">
-          <i class="fas fa-globe"></i>
-          <h3>دعم متعدد اللغات</h3>
-          <p>تصاميم قابلة للوصول تدعم العربية، الإنجليزية، وأكثر.</p>
-        </div>
-        <div class="service-card">
-          <i class="fas fa-mobile-alt"></i>
-          <h3>تصاميم متجاوبة</h3>
-          <p>تصاميم تبدأ بالجوال وتتأقلم بشكل جميل مع كل الأجهزة.</p>
-        </div>
-        <div class="service-card">
-          <i class="fas fa-solar-panel"></i>
-          <h3>استضافة مستدامة</h3>
-          <p>نتعاون مع مزودي استضافة صديقة للبيئة لتقليل الأثر الكربوني.</p>
-        </div>
-      </div>
-    </section>
-
-    <section class="testimonials" id="testimonials">
-      <h2>آراء عملائنا</h2>
-      <div class="testimonial-slider">
-        <blockquote>"جمالية لافندا لا مثيل لها. عملاؤنا يعشقونها!" – نور م.</blockquote>
-        <blockquote>"حولوا رؤيتنا إلى حديقة رقمية. أوصي بهم بشدة." – فراس ك.</blockquote>
-        <blockquote>"محترفون، سريعين، والتنفيذ رائع." – ليث أ.</blockquote>
-      </div>
-    </section>
-
-    <section class="contact" id="contact">
-      <h2>اتصل بنا</h2>
-      <form class="contact-form" action="https://formsubmit.co/youremail@example.com" method="POST">
-        <input type="text" name="name" placeholder="اسمك" required />
-        <input type="email" name="email" placeholder="بريدك الإلكتروني" required />
-        <textarea name="message" rows="5" placeholder="رسالتك" required></textarea>
-        <button type="submit">إرسال</button>
-      </form>
-    </section>
-  </main>
-
-  <footer>
-    <div class="footer-grid">
-      <div>
-        <h4>لافندا</h4>
-        <p>الجمال الطبيعي يلتقي بالتكنولوجيا الأنيقة.</p>
-      </div>
-      <div>
-        <h4>روابط سريعة</h4>
-        <ul>
-          <li><a href="#home">الرئيسية</a></li>
-          <li><a href="#about">من نحن</a></li>
-          <li><a href="#services">خدماتنا</a></li>
-          <li><a href="#contact">اتصل بنا</a></li>
-        </ul>
-      </div>
-      <div>
-        <h4>تابعنا</h4>
-        <p>@lavenda.sa</p>
-      </div>
+    <!-- Upload section -->
+    <div id="drop-area">
+      <p id="drop-text">اسحب الملفات هنا أو انقر للاختيار</p>
+      <input type="file" id="fileElem" multiple>
     </div>
-  </footer>
 
-  <script src="https://cdnjs.cloudflare.com/ajax/libs/animejs/3.2.1/anime.min.js"></script>
+    <!-- Progress -->
+    <div id="progress"></div>
+  </div>
+
   <script src="script.js"></script>
 </body>
 </html>
