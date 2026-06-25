@@ -1,33 +1,335 @@
 <!DOCTYPE html>
 <html lang="ar" dir="rtl">
 <head>
-  <meta charset="UTF-8">
-  <title>محول الملفات إلى PDF | File to PDF Converter</title>
-  <link rel="stylesheet" href="style.css">
-  
-  <!-- Libraries from CDN -->
-  <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js"></script>
-  <script src="https://cdnjs.cloudflare.com/ajax/libs/html2pdf.js/0.10.1/html2pdf.bundle.min.js"></script>
-  <script src="https://cdnjs.cloudflare.com/ajax/libs/showdown/2.1.0/showdown.min.js"></script>
-  <script src="https://cdnjs.cloudflare.com/ajax/libs/mammoth/1.6.0/mammoth.browser.min.js"></script>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>لوحة الشرف - ابتدائية ابن خلدون</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Tajawal:wght@400;500;700;800;900&display=swap" rel="stylesheet">
+    <script>
+        tailwind.config = {
+            theme: {
+                extend: {
+                    colors: {
+                        'moe-green': '#005C53',
+                        'moe-dark': '#042927',
+                        'moe-gold': '#C5A850',
+                        'moe-bg': '#FAF6EE'
+                    },
+                    fontFamily: {
+                        'sans': ['Tajawal', 'sans-serif'],
+                    }
+                }
+            }
+        }
+    </script>
+    <style>
+        body { 
+            background-color: #f0f4f2; 
+            -webkit-print-color-adjust: exact !important; 
+            print-color-adjust: exact !important; 
+        }
+        
+        .certificate-container {
+            border: 14px double #C5A850;
+            outline: 6px solid #005C53;
+            outline-offset: -12px;
+            background-color: #FAF6EE;
+            background-image: radial-gradient(#C5A850 0.5px, transparent 0.5px);
+            background-size: 20px 20px;
+            background-color: #FAF6EE;
+        }
+
+        .student-row { transition: all 0.2s ease-in-out; }
+        
+        @page {
+            size: A4 portrait;
+            margin: 0.5cm; /* هوامش بسيطة للورقة */
+        }
+
+        @media print {
+            .no-print { display: none !important; }
+            body, html { 
+                background: white !important; 
+                padding: 0 !important; 
+                margin: 0 !important; 
+                width: 100% !important;
+                height: 100% !important;
+            }
+            .certificate-container { 
+                box-shadow: none !important; 
+                margin: 0 auto !important; 
+                width: 100% !important; 
+                max-width: 210mm !important; 
+                border: 10px double #C5A850 !important;
+                outline: 4px solid #005C53 !important;
+                outline-offset: -8px !important;
+                page-break-inside: avoid; /* يمنع انقسام التصميم في الطباعة */
+            }
+            #student-list-container {
+                min-height: auto !important;
+            }
+            .student-row {
+                padding: 0.25rem 0.5rem !important; /* تصغير المسافات لاحتواء كل الأسماء في صفحة واحدة */
+                border-width: 1px !important; /* تقليل سماكة الحدود في الطباعة لتوفير المساحة */
+            }
+            .student-row .w-9.h-9 {
+                width: 2rem !important;
+                height: 2rem !important;
+            }
+            header {
+                padding-bottom: 0.5rem !important;
+                margin-bottom: 1rem !important;
+            }
+            h1 {
+                margin-bottom: 0.5rem !important;
+            }
+            footer {
+                margin-top: 1rem !important;
+                padding-top: 1rem !important;
+            }
+        }
+
+        .tab-btn {
+            background-color: #005C53;
+            color: white;
+            transition: all 0.3s;
+        }
+        .tab-btn.active {
+            background-color: #C5A850;
+            color: #042927;
+            transform: scale(1.05);
+            box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1);
+        }
+    </style>
 </head>
-<body>
-  <div class="container">
-    <h1 id="title">محول الملفات إلى PDF</h1>
+<body class="p-4 md:p-8 flex flex-col items-center min-h-screen">
 
-    <!-- Language toggle -->
-    <button id="langToggle">English</button>
-
-    <!-- Upload section -->
-    <div id="drop-area">
-      <p id="drop-text">اسحب الملفات هنا أو انقر للاختيار</p>
-      <input type="file" id="fileElem" multiple>
+    <div class="no-print w-full max-w-5xl mb-8 flex flex-col md:flex-row items-center justify-between gap-4 p-4 bg-white rounded-2xl shadow-sm border border-gray-100">
+        <div class="flex flex-wrap justify-center gap-3 flex-1">
+            <button onclick="switchClass('السادس', this)" class="tab-btn active px-6 py-2.5 rounded-full font-black text-lg border-2 border-transparent">الصف السادس</button>
+            <button onclick="switchClass('الخامس', this)" class="tab-btn px-6 py-2.5 rounded-full font-black text-lg border-2 border-transparent">الصف الخامس</button>
+            <button onclick="switchClass('الرابع', this)" class="tab-btn px-6 py-2.5 rounded-full font-black text-lg border-2 border-transparent">الصف الرابع</button>
+            <button onclick="switchClass('الثالث أ', this)" class="tab-btn px-6 py-2.5 rounded-full font-black text-lg border-2 border-transparent">الثالث أ</button>
+            <button onclick="switchClass('الثالث ب', this)" class="tab-btn px-6 py-2.5 rounded-full font-black text-lg border-2 border-transparent">الثالث ب</button>
+        </div>
+        
+        <button onclick="window.print()" class="flex items-center gap-2 bg-moe-dark text-moe-gold hover:bg-moe-green px-6 py-2.5 rounded-full font-black text-lg transition-all shadow-md border-2 border-moe-gold whitespace-nowrap">
+            <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
+                <path stroke-linecap="round" stroke-linejoin="round" d="M17 17h2a2 2 0 002-2v-4a2 2 0 00-2-2H5a2 2 0 00-2 2v4a2 2 0 002 2h2m2 4h6a2 2 0 002-2v-4a2 2 0 00-2-2H9a2 2 0 00-2 2v4a2 2 0 002 2zm8-12V5a2 2 0 00-2-2H9a2 2 0 00-2 2v4h10z" />
+            </svg>
+            طباعة A4
+        </button>
     </div>
 
-    <!-- Progress -->
-    <div id="progress"></div>
-  </div>
+    <div class="certificate-container w-full max-w-[210mm] shadow-2xl p-6 sm:p-10 rounded-2xl relative overflow-hidden bg-white">
+        
+        <!-- الترويسة -->
+        <header class="grid grid-cols-3 items-center border-b-2 border-moe-gold pb-5 mb-6 relative z-10">
+            <div class="text-right text-xs sm:text-sm font-black text-moe-green leading-relaxed">
+                <p>المملكة العربية السعودية</p>
+                <p>وزارة التعليم</p>
+                <p>الإدارة العامة للتعليم بمنطقة القصيم</p>
+                <p>ابتدائية ابن خلدون بعنيزة</p>
+            </div>
+            <div class="flex justify-center items-center">
+                <!-- شعار الوزارة (رابط رسمي وموثوق) -->
+                <img src="https://upload.wikimedia.org/wikipedia/ar/2/20/MOELogo.svg" class="w-20 sm:w-24 drop-shadow-md" alt="شعار وزارة التعليم">
+            </div>
+            <div class="text-left text-xs sm:text-sm font-black text-moe-green leading-relaxed">
+                <p>العام الدراسي: 1446 - 1447 هـ</p>
+                <p>الدور: الأول</p>
+                <p id="display-class-name" class="text-moe-gold mt-1 text-base">الصف: السادس الابتدائي</p>
+            </div>
+        </header>
 
-  <script src="script.js"></script>
+        <!-- العنوان الرئيسي -->
+        <div class="text-center mb-8 relative z-10">
+            <h1 class="text-4xl sm:text-5xl font-black text-moe-dark mb-3 tracking-wide drop-shadow-sm">لوحة الشرف</h1>
+            <div class="inline-block bg-moe-green text-white px-8 py-2 rounded-full border-2 border-moe-gold shadow-md">
+                <p class="text-xl font-bold">الطلاب العشرة الأوائل</p>
+            </div>
+        </div>
+
+        <!-- قائمة الطلاب (سيتم ملؤها بالجافاسكربت) -->
+        <div id="student-list-container" class="flex flex-col gap-2 max-w-4xl mx-auto relative z-10 min-h-[400px]">
+            <!-- Headers and Rows go here -->
+        </div>
+
+        <!-- التواقيع -->
+        <footer class="mt-12 flex flex-col sm:flex-row justify-between text-center pt-8 border-t-2 border-moe-gold/30 relative z-10 px-8">
+            <div class="mb-6 sm:mb-0">
+                <p class="font-bold text-moe-green mb-2">الموجه الطلابي</p>
+                <p class="font-black text-lg text-moe-dark">أ. مشعل بن محمد بن سليمان الصوينع</p>
+            </div>
+            <div>
+                <p class="font-bold text-moe-green mb-2">مدير المدرسة</p>
+                <p class="font-black text-lg text-moe-dark">منصور بن مذكر بن حمد الميزاني المطيري</p>
+            </div>
+        </footer>
+    </div>
+
+    <script>
+        // Data Extracted Exactly from PDFs
+        const schoolData = {
+            'السادس': [
+                { rank: '١', name: 'ثامر محمد بن عبد الرحمن الغميز', grade: '99.54', type: 'gold' },
+                { rank: '٢', name: 'عبد الله علي بن عبد الله الذياب', grade: '96.19', type: 'silver' },
+                { rank: '٣', name: 'سعود عبد الله فالح الحربي', grade: '95.95', type: 'bronze' },
+                { rank: '٤', name: 'أصيل محمد علي أباحسين', grade: '95.57', type: 'normal' },
+                { rank: '٥', name: 'عبد العزيز فيصل ابراهيم القرطون', grade: '94.35', type: 'normal' },
+                { rank: '٦', name: 'اصيل محمد بن عبد الرحمن العمران', grade: '94.19', type: 'normal' },
+                { rank: '٧', name: 'تركي ماهر مسعد المطيري', grade: '93.22', type: 'normal' },
+                { rank: '٨', name: 'فهد خالد محمد المطيري', grade: '92.95', type: 'normal' },
+                { rank: '٩', name: 'سطام عبدالله بن عبد الرحمن الشويمان', grade: '92.51', type: 'tie' },
+                { rank: '٩', name: 'عزام عبد الكريم عبد الله الخزرج', grade: '92.51', type: 'tie' },
+                { rank: '١٠', name: 'عبد الله بدر عبدالله الحربي', grade: '91.76', type: 'normal' }
+            ],
+            'الخامس': [
+                { rank: '١', name: 'علي عبد الله بن محمد السلوم', grade: '99.05', type: 'gold' },
+                { rank: '٢', name: 'يوسف عبد الرحمن يوسف الجريفاني', grade: '98.59', type: 'silver' },
+                { rank: '٣', name: 'ناصر وليد بن ابراهيم الدعيجي', grade: '97.35', type: 'bronze' },
+                { rank: '٤', name: 'سلمان صالح علي الثويني', grade: '97.27', type: 'normal' },
+                { rank: '٥', name: 'محمد صالح محمد الحسيني', grade: '96.92', type: 'normal' },
+                { rank: '٦', name: 'نهار محمد عبد العزيز المذن', grade: '96.81', type: 'normal' },
+                { rank: '٧', name: 'يعرب محمد عبد العزيز المذن', grade: '96.54', type: 'normal' },
+                { rank: '٨', name: 'راشد راكان راشد الربيع', grade: '96.27', type: 'normal' },
+                { rank: '٩', name: 'محمد رضا محمد اللبودي', grade: '95.62', type: 'normal' },
+                { rank: '١٠', name: 'تركي صالح عبدالله الجربوع', grade: '95.14', type: 'tie' },
+                { rank: '١٠', name: 'حسام ناصر بن فهد العتيبي', grade: '95.14', type: 'tie' }
+            ],
+            'الرابع': [
+                { rank: '١', name: 'عبد الرحمن يوسف عبد الرحمن الدامع', grade: '99.32', type: 'gold' },
+                { rank: '٢', name: 'بدر محمد صالح الخويطر', grade: '99.14', type: 'silver' },
+                { rank: '٣', name: 'عادل عبد العزيز بن عبد الرحمن المطيري', grade: '98.62', type: 'bronze' },
+                { rank: '٤', name: 'سلمان عبد الله شجاع المطيري', grade: '96.16', type: 'normal' },
+                { rank: '٥', name: 'حمد فارس بن عبدالله الفارس', grade: '95.89', type: 'normal' },
+                { rank: '٦', name: 'تميم عمر محمد السلوم', grade: '95.54', type: 'normal' },
+                { rank: '٧', name: 'سعود صالح بن ابراهيم الرويسان', grade: '95.41', type: 'normal' },
+                { rank: '٨', name: 'عبد الرحمن ممدوح عبد الرحمن المذن', grade: '95.27', type: 'normal' },
+                { rank: '٩', name: 'خالد بن ماجد بن محمد بن الشيخ', grade: '95.16', type: 'tie' },
+                { rank: '٩', name: 'سفيان ياسر بن سعود المطيري', grade: '95.16', type: 'tie' },
+                { rank: '١٠', name: 'جواد عبد الله بن صالح العصيل', grade: '94.46', type: 'normal' }
+            ],
+            'الثالث أ': [
+                { rank: '١', name: 'عبد الله ريان عبدالله أبالخيل', grade: '99.83', type: 'gold' },
+                { rank: '٢', name: 'خیال محمد حمد الحمداء', grade: '99.67', type: 'tie' },
+                { rank: '٢', name: 'محمد عبد الله محمد الخراز', grade: '99.67', type: 'tie' },
+                { rank: '٣', name: 'فارس حمد بن عبدالله الشيحي', grade: '99.17', type: 'bronze' },
+                { rank: '٤', name: 'محمد عبد الرحمن محمد الشحيتان', grade: '98.83', type: 'normal' },
+                { rank: '٥', name: 'نواف فيصل ابراهيم القرطون', grade: '98.67', type: 'normal' },
+                { rank: '٦', name: 'زايد ابراهيم بن عبد العزيز المطلق', grade: '98.39', type: 'normal' },
+                { rank: '٧', name: 'زياد خالد بن صالح القرعاوي', grade: '98.25', type: 'normal' },
+                { rank: '٨', name: 'طلال يزيد صالح النهابي', grade: '97.14', type: 'normal' },
+                { rank: '٩', name: 'محمد عادل علي المسند', grade: '96.92', type: 'normal' },
+                { rank: '١٠', name: 'مازن عبد الله بن جزاء الحربي', grade: '96.89', type: 'normal' }
+            ],
+            'الثالث ب': [
+                { rank: '١', name: 'طلال ابراهيم عبد العزيز القنيبط', grade: '99.06', type: 'gold' },
+                { rank: '٢', name: 'ريان فهد بن محمد السلوم', grade: '98.97', type: 'silver' },
+                { rank: '٣', name: 'نهار سعود حمود الرشيدي', grade: '97.50', type: 'bronze' },
+                { rank: '٤', name: 'سلمان احمد بن فوزان الدبيبي', grade: '97.11', type: 'normal' },
+                { rank: '٥', name: 'الياس صالح عبد الله الراشد', grade: '96.92', type: 'normal' },
+                { rank: '٦', name: 'زياد ماجد عبدالله الصانع', grade: '96.53', type: 'normal' },
+                { rank: '٧', name: 'ابراهيم عبد الله براهيم الشدوخي', grade: '96.08', type: 'normal' },
+                { rank: '٨', name: 'خیال یوسف بن علي الشريم', grade: '95.61', type: 'normal' },
+                { rank: '٩', name: 'ريان عبيد نافع الحربي', grade: '95.58', type: 'normal' },
+                { rank: '١٠', name: 'أنس محمد بن عبد العزيز الصغير', grade: '94.89', type: 'normal' }
+            ]
+        };
+
+        function renderList(className) {
+            const container = document.getElementById('student-list-container');
+            const headerText = document.getElementById('display-class-name');
+            
+            // Update Text
+            let displayName = className.includes('الثالث') ? `الصف: ${className}` : `الصف: ${className} الابتدائي`;
+            headerText.innerText = displayName;
+
+            // Clear existing list
+            container.innerHTML = '';
+
+            // Render Header Row
+            container.innerHTML += `
+                <div class="flex items-center justify-between px-4 py-2 border-b-2 border-dashed border-gray-300 text-moe-green font-bold text-sm">
+                    <div class="w-16 text-center">الترتيب</div>
+                    <div class="flex-1 text-right pr-4">اسم الطالب المتفوق</div>
+                    <div class="w-24 text-center">المعدل</div>
+                </div>
+            `;
+
+            const students = schoolData[className];
+            if (!students) return;
+
+            // Render Students Dynamically
+            students.forEach(student => {
+                let medalDesign = '';
+                let rowBg = 'bg-white';
+                let rowBorder = 'border-gray-200';
+                let badge = '';
+
+                // Apply correct styling based on type
+                if (student.type === 'gold') {
+                    rowBg = 'bg-gradient-to-l from-yellow-50 to-white';
+                    rowBorder = 'border-yellow-400';
+                    medalDesign = `<div class="w-9 h-9 rounded-full bg-gradient-to-b from-yellow-300 to-yellow-500 border-2 border-yellow-200 flex items-center justify-center font-black text-white shadow-md">${student.rank}</div>`;
+                } else if (student.type === 'silver') {
+                    rowBg = 'bg-gradient-to-l from-slate-50 to-white';
+                    rowBorder = 'border-slate-300';
+                    medalDesign = `<div class="w-9 h-9 rounded-full bg-gradient-to-b from-slate-200 to-slate-400 border-2 border-slate-100 flex items-center justify-center font-black text-white shadow-md">${student.rank}</div>`;
+                } else if (student.type === 'bronze') {
+                    rowBg = 'bg-gradient-to-l from-orange-50 to-white';
+                    rowBorder = 'border-orange-300';
+                    medalDesign = `<div class="w-9 h-9 rounded-full bg-gradient-to-b from-orange-300 to-orange-500 border-2 border-orange-200 flex items-center justify-center font-black text-white shadow-md">${student.rank}</div>`;
+                } else if (student.type === 'tie') {
+                    rowBg = 'bg-yellow-50/60';
+                    rowBorder = 'border-yellow-300';
+                    medalDesign = `<div class="w-9 h-9 rounded-full bg-yellow-100 border-2 border-yellow-300 flex items-center justify-center font-black text-yellow-700">${student.rank}</div>`;
+                    badge = `<span class="absolute -top-3 left-4 bg-yellow-400 text-yellow-900 text-[10px] font-black px-2 py-0.5 rounded shadow-sm rotate-12">مكرر</span>`;
+                } else {
+                    medalDesign = `<div class="w-9 h-9 rounded-full bg-gray-100 border border-gray-300 flex items-center justify-center font-black text-gray-500">${student.rank}</div>`;
+                }
+
+                // Create row HTML
+                const row = document.createElement('div');
+                row.className = `student-row relative flex items-center justify-between p-2 sm:p-2.5 rounded-xl border-2 ${rowBorder} ${rowBg} shadow-sm`;
+                row.innerHTML = `
+                    ${badge}
+                    <div class="w-16 flex justify-center">
+                        ${medalDesign}
+                    </div>
+                    <div class="flex-1 text-right pr-4">
+                        <span class="font-black text-base sm:text-lg text-moe-dark">${student.name}</span>
+                    </div>
+                    <div class="w-24 flex justify-center">
+                        <span class="bg-moe-green text-white font-black px-4 py-1.5 rounded-lg shadow-inner text-sm sm:text-base">
+                            %${student.grade}
+                        </span>
+                    </div>
+                `;
+                container.appendChild(row);
+            });
+        }
+
+        function switchClass(className, btnElement) {
+            // Remove active class from all buttons
+            document.querySelectorAll('.tab-btn').forEach(btn => {
+                btn.classList.remove('active');
+            });
+            // Add active class to clicked button
+            if (btnElement) {
+                btnElement.classList.add('active');
+            }
+            // Render the specific class data
+            renderList(className);
+        }
+
+        // Initialize with 6th Grade on load
+        window.onload = () => {
+            renderList('السادس');
+        };
+    </script>
 </body>
 </html>
